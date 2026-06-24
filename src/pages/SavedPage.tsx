@@ -27,21 +27,21 @@ export default function SavedPage() {
   return (
     <Layout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-white">Saved JDs</h1>
-        <p className="text-gray-400 text-sm mt-1">{savedIds.length} saved</p>
+        <h1 className="text-2xl font-bold text-stone-100">Saved JDs</h1>
+        <p className="text-stone-500 text-sm mt-1">{savedIds.length} saved</p>
       </div>
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array(3).fill(0).map((_, i) => (
-            <div key={i} className="bg-gray-900 border border-gray-800 rounded-xl p-5 animate-pulse h-40" />
+            <div key={i} className="bg-stone-900 border border-stone-800 rounded-xl p-5 animate-pulse h-40" />
           ))}
         </div>
       ) : jds.length === 0 ? (
         <div className="text-center py-20">
           <div className="text-5xl mb-4">🔖</div>
-          <p className="text-gray-400">No saved JDs yet</p>
-          <p className="text-gray-600 text-sm mt-2">Click the bookmark icon on any JD to save it here</p>
+          <p className="text-stone-500">No saved JDs yet</p>
+          <p className="text-stone-600 text-sm mt-2">Click the bookmark icon on any JD to save it here</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -48,7 +48,10 @@ export const jdsApi = {
 
   stats: () => api.get('/jds/stats').then((r) => r.data),
 
-  filters: () => api.get('/jds/filters').then((r) => r.data),
+  filters: (year?: number) =>
+    api.get('/jds/filters', { params: year ? { year } : {} }).then((r) => r.data),
+
+  years: () => api.get('/jds/years').then((r) => r.data),
 };
 
 export const userApi = {

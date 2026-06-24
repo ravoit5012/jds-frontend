@@ -41,11 +41,11 @@ export default function AdminPage() {
     <Layout>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
-          <p className="text-gray-400 text-sm mt-0.5">Manage user access</p>
+          <h1 className="text-2xl font-bold text-stone-100">Admin Panel</h1>
+          <p className="text-stone-500 text-sm mt-0.5">Manage user access</p>
         </div>
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-gray-500">{users.length} total users</span>
+          <span className="text-stone-500">{users.length} total users</span>
           {pending.length > 0 && (
             <span className="bg-yellow-500/20 text-yellow-300 border border-yellow-500/30 px-2.5 py-0.5 rounded-full font-medium">
               {pending.length} pending
@@ -55,13 +55,13 @@ export default function AdminPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-5 bg-gray-900 border border-gray-800 rounded-xl p-1 w-fit">
+      <div className="flex gap-1 mb-5 bg-stone-900 border border-stone-800 rounded-xl p-1 w-fit">
         {([['pending', 'Pending Approval'], ['all', 'All Users']] as [Tab, string][]).map(([key, label]) => (
           <button
             key={key}
             onClick={() => setTab(key)}
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors relative ${
-              tab === key ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'
+              tab === key ? 'bg-orange-600 text-white' : 'text-stone-500 hover:text-stone-100'
             }`}
           >
             {label}
@@ -74,13 +74,13 @@ export default function AdminPage() {
         ))}
       </div>
 
-      <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+      <div className="bg-stone-900 border border-stone-800 rounded-xl overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-gray-400">Loading…</div>
+          <div className="p-8 text-center text-stone-500">Loading…</div>
         ) : displayed.length === 0 ? (
           <div className="p-8 text-center">
             <div className="text-3xl mb-2">{tab === 'pending' ? '🎉' : '👥'}</div>
-            <p className="text-gray-400 text-sm">
+            <p className="text-stone-500 text-sm">
               {tab === 'pending' ? 'No pending approvals' : 'No users yet'}
             </p>
           </div>
@@ -88,29 +88,29 @@ export default function AdminPage() {
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-800 text-left">
-                  <th className="px-5 py-3 text-xs text-gray-500 uppercase tracking-wider">User</th>
-                  <th className="px-5 py-3 text-xs text-gray-500 uppercase tracking-wider">Role</th>
-                  <th className="px-5 py-3 text-xs text-gray-500 uppercase tracking-wider">2FA</th>
-                  <th className="px-5 py-3 text-xs text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-5 py-3 text-xs text-gray-500 uppercase tracking-wider">Saved</th>
-                  <th className="px-5 py-3 text-xs text-gray-500 uppercase tracking-wider">Actions</th>
+                <tr className="border-b border-stone-800 text-left">
+                  <th className="px-5 py-3 text-xs text-stone-600 uppercase tracking-wider">User</th>
+                  <th className="px-5 py-3 text-xs text-stone-600 uppercase tracking-wider">Role</th>
+                  <th className="px-5 py-3 text-xs text-stone-600 uppercase tracking-wider">2FA</th>
+                  <th className="px-5 py-3 text-xs text-stone-600 uppercase tracking-wider">Status</th>
+                  <th className="px-5 py-3 text-xs text-stone-600 uppercase tracking-wider">Saved</th>
+                  <th className="px-5 py-3 text-xs text-stone-600 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-800">
+              <tbody className="divide-y divide-stone-800">
                 {displayed.map(u => {
                   const isMe = u._id === user?._id;
                   const busy = acting === u._id;
                   return (
-                    <tr key={u._id} className="hover:bg-gray-800/40 transition-colors">
+                    <tr key={u._id} className="hover:bg-stone-800/40 transition-colors">
                       <td className="px-5 py-3.5">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-blue-700 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                          <div className="w-8 h-8 rounded-full bg-orange-700 flex items-center justify-center text-white text-sm font-bold shrink-0">
                             {u.name?.[0]?.toUpperCase()}
                           </div>
                           <div>
-                            <div className="text-white text-sm font-medium">{u.name}</div>
-                            <div className="text-gray-500 text-xs">{u.email}</div>
+                            <div className="text-stone-200 text-sm font-medium">{u.name}</div>
+                            <div className="text-stone-500 text-xs">{u.email}</div>
                           </div>
                         </div>
                       </td>
@@ -118,13 +118,13 @@ export default function AdminPage() {
                         <span className={`text-xs px-2 py-0.5 rounded-full ${
                           u.role === 'admin'
                             ? 'bg-red-500/20 text-red-300'
-                            : 'bg-gray-700 text-gray-300'
+                            : 'bg-stone-700 text-stone-300'
                         }`}>
                           {u.role}
                         </span>
                       </td>
                       <td className="px-5 py-3.5">
-                        <span className={`text-xs ${u.isTwoFactorEnabled ? 'text-green-400' : 'text-gray-600'}`}>
+                        <span className={`text-xs ${u.isTwoFactorEnabled ? 'text-green-400' : 'text-stone-700'}`}>
                           {u.isTwoFactorEnabled ? '✓ On' : '— Off'}
                         </span>
                       </td>
@@ -143,12 +143,12 @@ export default function AdminPage() {
                           </span>
                         )}
                       </td>
-                      <td className="px-5 py-3.5 text-gray-500 text-sm">
+                      <td className="px-5 py-3.5 text-stone-500 text-sm">
                         {u.savedJds?.length ?? 0}
                       </td>
                       <td className="px-5 py-3.5">
                         {isMe ? (
-                          <span className="text-gray-600 text-xs">You</span>
+                          <span className="text-stone-700 text-xs">You</span>
                         ) : (
                           <div className="flex items-center gap-2">
                             {!u.isApproved ? (

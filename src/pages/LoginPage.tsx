@@ -53,71 +53,68 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-950 via-indigo-900 to-purple-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-stone-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="text-4xl font-bold text-white mb-2">JD Explorer</div>
-          <div className="text-blue-300 text-sm">IIT Delhi Placement Portal</div>
+          <div className="text-4xl mb-2">📋</div>
+          <div className="text-3xl font-bold text-stone-100 mb-1">JD Explorer</div>
+          <div className="text-orange-400 text-sm">IIT Delhi Placement Portal</div>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
+        <div className="bg-stone-900 border border-stone-700 rounded-2xl p-8 shadow-2xl">
 
-          {/* Registered-successfully banner */}
           {searchParams.get('registered') && (
-            <div className="mb-5 bg-green-500/20 border border-green-500/40 rounded-lg px-4 py-3 text-green-300 text-sm text-center">
+            <div className="mb-5 bg-green-500/15 border border-green-600/30 rounded-lg px-4 py-3 text-green-400 text-sm text-center">
               Account created! Please wait for admin approval before signing in.
             </div>
           )}
 
-          {/* Pending approval state */}
           {isPending ? (
             <div className="text-center py-4">
               <div className="text-4xl mb-3">⏳</div>
-              <h2 className="text-white font-semibold text-lg mb-2">Approval Pending</h2>
-              <p className="text-blue-200 text-sm leading-relaxed">
-                Your account is awaiting admin approval. You will be able to sign in once an
-                admin reviews your request.
+              <h2 className="text-stone-100 font-semibold text-lg mb-2">Approval Pending</h2>
+              <p className="text-stone-400 text-sm leading-relaxed">
+                Your account is awaiting admin approval. You'll be able to sign in once approved.
               </p>
               <button
                 onClick={() => { setIsPending(false); setEmail(''); setPassword(''); }}
-                className="mt-5 text-sm text-blue-300 hover:text-blue-200 underline"
+                className="mt-5 text-sm text-orange-400 hover:text-orange-300 underline"
               >
                 Back to login
               </button>
             </div>
           ) : step === 'login' ? (
             <>
-              <h2 className="text-xl font-semibold text-white mb-6">Sign In</h2>
+              <h2 className="text-xl font-semibold text-stone-100 mb-6">Sign In</h2>
               <form onSubmit={handleLogin} className="space-y-4">
                 <div>
-                  <label className="block text-sm text-blue-200 mb-1">Email</label>
+                  <label className="block text-sm text-stone-400 mb-1">Email</label>
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     required
-                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="you@iitd.ac.in"
+                    className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 text-stone-100 placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    placeholder="abc@iitd.ac.in"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm text-blue-200 mb-1">Password</label>
+                  <label className="block text-sm text-stone-400 mb-1">Password</label>
                   <div className="relative">
                     <input
                       type={showPassword ? 'text' : 'password'}
                       value={password}
                       onChange={e => setPassword(e.target.value)}
                       required
-                      className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 pr-12 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-3 pr-12 text-stone-100 placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
                       placeholder="••••••••"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(v => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/90 transition-colors select-none"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-stone-300 transition-colors select-none"
                       tabIndex={-1}
-                      aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
                       {showPassword ? (
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -126,8 +123,7 @@ export default function LoginPage() {
                         </svg>
                       ) : (
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                             d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
@@ -141,25 +137,23 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-blue-500 hover:bg-blue-600 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition-colors"
+                  className="w-full bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition-colors"
                 >
                   {loading ? 'Signing in…' : 'Sign In'}
                 </button>
               </form>
 
-              <p className="text-center text-white/50 text-sm mt-6">
+              <p className="text-center text-stone-500 text-sm mt-6">
                 Don't have an account?{' '}
-                <Link to="/register" className="text-blue-300 hover:text-blue-200">Register</Link>
+                <Link to="/register" className="text-orange-400 hover:text-orange-300">Register</Link>
               </p>
             </>
           ) : (
             <>
               <div className="text-center mb-6">
                 <div className="text-3xl mb-2">🔐</div>
-                <h2 className="text-xl font-semibold text-white">Two-Factor Auth</h2>
-                <p className="text-blue-300 text-sm mt-1">
-                  Enter the 6-digit OTP from your authenticator app
-                </p>
+                <h2 className="text-xl font-semibold text-stone-100">Two-Factor Auth</h2>
+                <p className="text-stone-400 text-sm mt-1">Enter the 6-digit OTP from your authenticator app</p>
               </div>
               <form onSubmit={handle2fa} className="space-y-4">
                 <input
@@ -169,7 +163,7 @@ export default function LoginPage() {
                   onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   required
                   maxLength={6}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-4 text-white text-center text-3xl tracking-widest font-mono placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full bg-stone-800 border border-stone-700 rounded-lg px-4 py-4 text-stone-100 text-center text-3xl tracking-widest font-mono placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
                   placeholder="000000"
                   autoFocus
                 />
@@ -177,14 +171,14 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={loading || code.length !== 6}
-                  className="w-full bg-blue-500 hover:bg-blue-600 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition-colors"
+                  className="w-full bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition-colors"
                 >
                   {loading ? 'Verifying…' : 'Verify OTP'}
                 </button>
                 <button
                   type="button"
                   onClick={() => { setStep('login'); setCode(''); setError(''); }}
-                  className="w-full text-white/50 text-sm hover:text-white/80"
+                  className="w-full text-stone-500 text-sm hover:text-stone-300"
                 >
                   ← Back to login
                 </button>

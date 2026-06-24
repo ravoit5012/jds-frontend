@@ -3,22 +3,29 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { jdsApi, userApi } from '../lib/api';
 import Layout from '../components/Layout';
 
+function safeStr(v: any): string {
+  if (v === null || v === undefined) return '';
+  if (typeof v === 'boolean') return v ? 'Yes' : 'No';
+  if (typeof v === 'object') return JSON.stringify(v);
+  return String(v);
+}
+
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-4">
-      <h3 className="text-white font-semibold text-lg mb-4 border-b border-gray-800 pb-2">{title}</h3>
+    <div className="bg-stone-900 border border-stone-800 rounded-xl p-6 mb-4">
+      <h3 className="text-stone-100 font-semibold text-lg mb-4 border-b border-stone-700 pb-2">{title}</h3>
       {children}
     </div>
   );
 }
 
-function Field({ label, value }: { label: string; value: string | number | boolean | null | undefined }) {
-  if (value === null || value === undefined || value === '') return null;
-  const display = typeof value === 'boolean' ? (value ? 'Yes' : 'No') : String(value);
+function Field({ label, value }: { label: string; value: any }) {
+  const display = safeStr(value);
+  if (!display) return null;
   return (
-    <div className="grid grid-cols-2 gap-2 py-2 border-b border-gray-800 last:border-0">
-      <span className="text-gray-500 text-sm">{label}</span>
-      <span className="text-gray-200 text-sm">{display}</span>
+    <div className="grid grid-cols-2 gap-2 py-2 border-b border-stone-800 last:border-0">
+      <span className="text-stone-500 text-sm">{label}</span>
+      <span className="text-stone-300 text-sm">{display}</span>
     </div>
   );
 }
@@ -50,9 +57,9 @@ export default function JdDetailPage() {
   if (loading) return (
     <Layout>
       <div className="animate-pulse space-y-4">
-        <div className="h-8 bg-gray-800 rounded w-1/2" />
-        <div className="h-4 bg-gray-800 rounded w-1/3" />
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 h-40" />
+        <div className="h-8 bg-stone-800 rounded w-1/2" />
+        <div className="h-4 bg-stone-800 rounded w-1/3" />
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-6 h-40" />
       </div>
     </Layout>
   );
@@ -60,8 +67,8 @@ export default function JdDetailPage() {
   if (!jd) return (
     <Layout>
       <div className="text-center py-20">
-        <p className="text-gray-400">JD not found</p>
-        <button onClick={() => navigate('/')} className="mt-4 text-blue-400 hover:text-blue-300">← Back to Explorer</button>
+        <p className="text-stone-500">JD not found</p>
+        <button onClick={() => navigate('/')} className="mt-4 text-orange-400 hover:text-orange-300">← Back to Explorer</button>
       </div>
     </Layout>
   );
@@ -71,23 +78,26 @@ export default function JdDetailPage() {
   return (
     <Layout>
       <div className="mb-6">
-        <button onClick={() => navigate(-1)} className="text-gray-400 hover:text-white text-sm mb-4 flex items-center gap-1">
+        <button onClick={() => navigate(-1)} className="text-stone-500 hover:text-stone-300 text-sm mb-4 flex items-center gap-1">
           ← Back
         </button>
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-white">{org?.name}</h1>
-            <p className="text-blue-400 text-lg mt-1">{job?.title}</p>
+            <h1 className="text-2xl font-bold text-stone-100">{org?.name}</h1>
+            <p className="text-orange-400 text-lg mt-1">{job?.title}</p>
             <div className="flex flex-wrap gap-2 mt-3">
-              {org?.orgType && <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-1 rounded-full">{org.orgType}</span>}
-              {org?.businessNature && <span className="text-xs bg-gray-700 text-gray-300 px-2 py-1 rounded-full">{org.businessNature}</span>}
-              {sel?.mode && <span className="text-xs bg-purple-500/20 text-purple-300 px-2 py-1 rounded-full">{sel.mode}</span>}
+              {org?.orgType && <span className="text-xs bg-orange-500/15 text-orange-300 px-2 py-1 rounded-full">{org.orgType}</span>}
+              {org?.businessNature && <span className="text-xs bg-stone-800 text-stone-400 px-2 py-1 rounded-full">{org.businessNature}</span>}
+              {sel?.mode && <span className="text-xs bg-stone-800 text-stone-400 px-2 py-1 rounded-full">{sel.mode}</span>}
+              {jd.year && <span className="text-xs bg-stone-700 text-stone-300 px-2 py-1 rounded-full">{jd.year}</span>}
             </div>
           </div>
           <button
             onClick={toggleSave}
-            className={`flex-shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-              saved ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' : 'bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700'
+            className={`shrink-0 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              saved
+                ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
+                : 'bg-stone-800 text-stone-500 hover:bg-stone-700 border border-stone-700'
             }`}
           >
             {saved ? '🔖 Saved' : '🏷️ Save'}
@@ -98,11 +108,11 @@ export default function JdDetailPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {[
           { label: 'CTC', value: sal?.ctcRaw || 'Not disclosed', color: 'text-green-400' },
-          { label: 'Min CGPA', value: job?.minCgpa ? `${job.minCgpa}/10` : 'No minimum', color: 'text-blue-400' },
-          { label: 'Location', value: job?.locations?.join(', ') || 'TBD', color: 'text-purple-400' },
+          { label: 'Min CGPA', value: job?.minCgpa ? `${job.minCgpa}/10` : 'No minimum', color: 'text-orange-400' },
+          { label: 'Location', value: job?.locations?.join(', ') || 'TBD', color: 'text-amber-400' },
         ].map(({ label, value, color }) => (
-          <div key={label} className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-            <div className="text-gray-500 text-xs mb-1">{label}</div>
+          <div key={label} className="bg-stone-900 border border-stone-800 rounded-xl p-4">
+            <div className="text-stone-500 text-xs mb-1">{label}</div>
             <div className={`font-semibold ${color}`}>{value}</div>
           </div>
         ))}
@@ -116,8 +126,8 @@ export default function JdDetailPage() {
         <Field label="Established" value={org?.established} />
         {org?.website && (
           <div className="grid grid-cols-2 gap-2 py-2">
-            <span className="text-gray-500 text-sm">Website</span>
-            <a href={org.website} target="_blank" rel="noreferrer" className="text-blue-400 hover:text-blue-300 text-sm truncate">{org.website}</a>
+            <span className="text-stone-500 text-sm">Website</span>
+            <a href={org.website} target="_blank" rel="noreferrer" className="text-orange-400 hover:text-orange-300 text-sm truncate">{org.website}</a>
           </div>
         )}
       </Section>
@@ -131,20 +141,26 @@ export default function JdDetailPage() {
         <Field label="Backlog Eligible" value={job?.backlogEligible} />
         {job?.description && (
           <div className="mt-4">
-            <div className="text-gray-500 text-sm mb-2">Job Description</div>
-            <div className="text-gray-200 text-sm leading-relaxed bg-gray-800 rounded-lg p-4 whitespace-pre-wrap">{job.description}</div>
+            <div className="text-stone-500 text-sm mb-2">Job Description</div>
+            <div className="text-stone-300 text-sm leading-relaxed bg-stone-800/60 rounded-lg p-4 whitespace-pre-wrap border border-stone-700">
+              {safeStr(job.description)}
+            </div>
           </div>
         )}
         {job?.roleDetails && (
           <div className="mt-4">
-            <div className="text-gray-500 text-sm mb-2">Role Details</div>
-            <div className="text-gray-200 text-sm leading-relaxed bg-gray-800 rounded-lg p-4 whitespace-pre-wrap">{job.roleDetails}</div>
+            <div className="text-stone-500 text-sm mb-2">Role Details</div>
+            <div className="text-stone-300 text-sm leading-relaxed bg-stone-800/60 rounded-lg p-4 whitespace-pre-wrap border border-stone-700">
+              {safeStr(job.roleDetails)}
+            </div>
           </div>
         )}
         {job?.skills && (
           <div className="mt-4">
-            <div className="text-gray-500 text-sm mb-2">Skillset</div>
-            <div className="text-gray-200 text-sm leading-relaxed bg-gray-800 rounded-lg p-4 whitespace-pre-wrap">{job.skills}</div>
+            <div className="text-stone-500 text-sm mb-2">Skillset</div>
+            <div className="text-stone-300 text-sm leading-relaxed bg-stone-800/60 rounded-lg p-4 whitespace-pre-wrap border border-stone-700">
+              {safeStr(job.skills)}
+            </div>
           </div>
         )}
       </Section>
@@ -173,10 +189,10 @@ export default function JdDetailPage() {
         <Field label="Recruiting PhDs" value={elig?.recruitingPhDs} />
         {elig?.departments?.length > 0 && (
           <div className="mt-3">
-            <div className="text-gray-500 text-sm mb-2">Eligible Departments</div>
+            <div className="text-stone-500 text-sm mb-2">Eligible Departments</div>
             <div className="flex flex-wrap gap-2">
               {elig.departments.map((d: string) => (
-                <span key={d} className="text-xs bg-gray-800 text-gray-300 px-2 py-1 rounded-full">{d}</span>
+                <span key={d} className="text-xs bg-stone-800 text-stone-300 px-2 py-1 rounded-full border border-stone-700">{d}</span>
               ))}
             </div>
           </div>
@@ -187,20 +203,20 @@ export default function JdDetailPage() {
         <Field label="CTC" value={sal?.ctcRaw} />
         <Field label="Base Salary" value={sal?.baseRaw} />
         <Field label="Gross Salary" value={sal?.grossRaw} />
-        <Field label="Joining Bonus" value={sal?.joiningBonus ? `₹${sal.joiningBonus.toLocaleString()}` : undefined} />
-        <Field label="Relocation Bonus" value={sal?.relocationBonus ? `₹${sal.relocationBonus.toLocaleString()}` : undefined} />
-        <Field label="Medical Allowance" value={sal?.medicalAllowance ? `₹${sal.medicalAllowance.toLocaleString()}` : undefined} />
-        <Field label="Retention Bonus" value={sal?.retentionBonus ? `₹${sal.retentionBonus.toLocaleString()}` : undefined} />
+        <Field label="Joining Bonus" value={sal?.joiningBonus ? `${sal.joiningBonus.toLocaleString()}` : undefined} />
+        <Field label="Relocation Bonus" value={sal?.relocationBonus ? `${sal.relocationBonus.toLocaleString()}` : undefined} />
+        <Field label="Medical Allowance" value={sal?.medicalAllowance ? `${sal.medicalAllowance.toLocaleString()}` : undefined} />
+        <Field label="Retention Bonus" value={sal?.retentionBonus ? `${sal.retentionBonus.toLocaleString()}` : undefined} />
         {sal?.ctcBreakup && (
           <div className="mt-3">
-            <div className="text-gray-500 text-sm mb-2">CTC Breakup</div>
-            <div className="text-gray-200 text-sm bg-gray-800 rounded-lg p-3 whitespace-pre-wrap">{sal.ctcBreakup}</div>
+            <div className="text-stone-500 text-sm mb-2">CTC Breakup</div>
+            <div className="text-stone-300 text-sm bg-stone-800/60 rounded-lg p-3 whitespace-pre-wrap border border-stone-700">{sal.ctcBreakup}</div>
           </div>
         )}
         {sal?.perks && (
           <div className="mt-3">
-            <div className="text-gray-500 text-sm mb-2">Perks & Benefits</div>
-            <div className="text-gray-200 text-sm bg-gray-800 rounded-lg p-3">{sal.perks}</div>
+            <div className="text-stone-500 text-sm mb-2">Perks & Benefits</div>
+            <div className="text-stone-300 text-sm bg-stone-800/60 rounded-lg p-3 border border-stone-700">{sal.perks}</div>
           </div>
         )}
       </Section>
