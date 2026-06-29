@@ -10,6 +10,8 @@ import SettingsPage from './pages/SettingsPage';
 import AdminPage from './pages/AdminPage';
 import YearSelectPage from './pages/YearSelectPage';
 import PracticePage from './pages/PracticePage';
+import FeatureSelectPage from './pages/FeatureSelectPage';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { token, loading } = useAuth();
@@ -38,7 +40,7 @@ function YearGate({ children }: { children: React.ReactNode }) {
 function PublicRoute({ children }: { children: React.ReactNode }) {
   const { token, loading } = useAuth();
   if (loading) return null;
-  if (token) return <Navigate to="/" replace />;
+  if (token) return <Navigate to="/select-feature" replace />;
   return <>{children}</>;
 }
 
@@ -47,6 +49,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+      <Route path="/select-feature" element={<ProtectedRoute><FeatureSelectPage /></ProtectedRoute>} />
       <Route path="/select-year" element={<ProtectedRoute><YearSelectPage /></ProtectedRoute>} />
       <Route path="/" element={<YearGate><ExplorePage /></YearGate>} />
       <Route path="/jd/:id" element={<YearGate><JdDetailPage /></YearGate>} />
@@ -54,7 +57,7 @@ function AppRoutes() {
       <Route path="/practice" element={<ProtectedRoute><PracticePage /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="*" element={<Navigate to="/select-feature" replace />} />
     </Routes>
   );
 }
@@ -62,11 +65,13 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <YearProvider>
-          <AppRoutes />
-        </YearProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <YearProvider>
+            <AppRoutes />
+          </YearProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

@@ -2,15 +2,18 @@ import { useState, type ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useYear } from '../contexts/YearContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { user, logout } = useAuth();
   const { selectedYear } = useYear();
+  const { theme, setTheme, actualTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
+    { to: '/select-feature', label: 'Home' },
     { to: '/', label: 'Explorer' },
     { to: '/practice', label: 'Practice' },
     { to: '/saved', label: 'Saved' },
@@ -53,6 +56,41 @@ export default function Layout({ children }: { children: ReactNode }) {
                 <span className="text-stone-500">↕</span>
               </button>
             )}
+            <div className="flex items-center bg-stone-900 border border-stone-800 rounded-lg p-0.5">
+              <button
+                onClick={() => setTheme('light')}
+                className={`flex items-center justify-center w-8 h-7 rounded-md transition-all ${
+                  theme === 'light' ? 'bg-stone-800 text-stone-100 shadow-sm' : 'text-stone-500 hover:text-stone-300'
+                }`}
+                title="Light Mode"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setTheme('dark')}
+                className={`flex items-center justify-center w-8 h-7 rounded-md transition-all ${
+                  theme === 'dark' ? 'bg-stone-800 text-stone-100 shadow-sm' : 'text-stone-500 hover:text-stone-300'
+                }`}
+                title="Dark Mode"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setTheme('system')}
+                className={`flex items-center justify-center w-8 h-7 rounded-md transition-all ${
+                  theme === 'system' ? 'bg-stone-800 text-stone-100 shadow-sm' : 'text-stone-500 hover:text-stone-300'
+                }`}
+                title="System Theme"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
             <span className="hidden md:block text-sm text-stone-500">{user?.name}</span>
             <button
               onClick={logout}

@@ -1,11 +1,108 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Inter", "Outfit", system-ui, -apple-system, sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  background-color: var(--color-stone-950);
+  color: var(--color-stone-100);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Light Mode (default if not dark) */
+:root {
+  /* Using Zinc/Slate tones for a premium modern look */
+  --color-stone-950: #f8fafc; /* bg-main */
+  --color-stone-900: #ffffff; /* bg-surface */
+  --color-stone-800: #f1f5f9; /* bg-surface-hover */
+  --color-stone-700: #e2e8f0; /* borders */
+  --color-stone-600: #64748b; /* text subtle */
+  --color-stone-500: #475569; /* text muted */
+  --color-stone-400: #334155; /* text secondary */
+  --color-stone-300: #1e293b; /* text hover */
+  --color-stone-200: #0f172a; /* text strong */
+  --color-stone-100: #020617; /* text base */
+
+  /* Vibrant Accents */
+  --color-orange-600: #f97316;
+  --color-orange-500: #ea580c; /* darker for better contrast in light mode */
+  --color-orange-400: #c2410c;
+  --color-orange-300: #9a3412;
+
+  --color-emerald-950: #ecfdf5;
+  --color-emerald-700: #6ee7b7;
+  --color-emerald-400: #059669;
+  --color-emerald-300: #047857;
+  --color-emerald-500: #10b981;
+
+  --color-green-500: #10b981;
+  --color-green-300: #047857;
+
+  --color-red-400: #dc2626;
+  --color-red-300: #b91c1c;
+
+  --color-amber-400: #d97706;
+  --color-cyan-400: #0891b2;
+  --color-yellow-400: #ca8a04;
+  --color-purple-400: #9333ea;
+  
+  --color-white: #000000;
+  --color-black: #ffffff;
+}
+
+/* Dark Mode */
+.dark {
+  /* Deep modern dark mode */
+  --color-stone-950: #09090b; /* bg-main */
+  --color-stone-900: #18181b; /* bg-surface */
+  --color-stone-800: #27272a; /* bg-surface-hover */
+  --color-stone-700: #3f3f46; /* borders */
+  --color-stone-600: #a1a1aa; /* text subtle - vastly improved contrast */
+  --color-stone-500: #d4d4d8; /* text muted */
+  --color-stone-400: #e4e4e7; /* text secondary */
+  --color-stone-300: #f4f4f5; /* text hover */
+  --color-stone-200: #fafafa; /* text strong */
+  --color-stone-100: #ffffff; /* text base */
+
+  /* Vibrant Accents */
+  --color-orange-600: #ea580c;
+  --color-orange-500: #f97316;
+  --color-orange-400: #fb923c;
+  --color-orange-300: #fdba74;
+
+  --color-emerald-950: #022c22;
+  --color-emerald-700: #047857;
+  --color-emerald-400: #34d399;
+  --color-emerald-300: #6ee7b7;
+  --color-emerald-500: #10b981;
+
+  --color-green-500: #10b981;
+  --color-green-300: #6ee7b7;
+
+  --color-red-400: #f87171;
+  --color-red-300: #fca5a5;
+
+  --color-amber-400: #fbbf24;
+  --color-cyan-400: #22d3ee;
+  --color-yellow-400: #facc15;
+  --color-purple-400: #c084fc;
+  
+  --color-white: #ffffff;
+  --color-black: #000000;
+}
+
+/* Add some micro-animations globally */
+button, a {
+  transition: all 0.2s ease-in-out;
+}
+button:active {
+  transform: scale(0.98);
 }
