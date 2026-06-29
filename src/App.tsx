@@ -9,12 +9,13 @@ import SavedPage from './pages/SavedPage';
 import SettingsPage from './pages/SettingsPage';
 import AdminPage from './pages/AdminPage';
 import YearSelectPage from './pages/YearSelectPage';
+import PracticePage from './pages/PracticePage';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { token, loading } = useAuth();
   if (loading) return (
-    <div className="min-h-screen bg-[#0d0a05] flex items-center justify-center">
-      <div className="text-amber-700 text-sm animate-pulse">Loading…</div>
+    <div className="min-h-screen bg-stone-950 flex items-center justify-center">
+      <div className="text-stone-600 text-sm animate-pulse">Loading…</div>
     </div>
   );
   if (!token) return <Navigate to="/login" replace />;
@@ -25,8 +26,8 @@ function YearGate({ children }: { children: React.ReactNode }) {
   const { token, loading } = useAuth();
   const { selectedYear } = useYear();
   if (loading) return (
-    <div className="min-h-screen bg-[#0d0a05] flex items-center justify-center">
-      <div className="text-amber-700 text-sm animate-pulse">Loading…</div>
+    <div className="min-h-screen bg-stone-950 flex items-center justify-center">
+      <div className="text-stone-600 text-sm animate-pulse">Loading…</div>
     </div>
   );
   if (!token) return <Navigate to="/login" replace />;
@@ -50,6 +51,7 @@ function AppRoutes() {
       <Route path="/" element={<YearGate><ExplorePage /></YearGate>} />
       <Route path="/jd/:id" element={<YearGate><JdDetailPage /></YearGate>} />
       <Route path="/saved" element={<YearGate><SavedPage /></YearGate>} />
+      <Route path="/practice" element={<ProtectedRoute><PracticePage /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />

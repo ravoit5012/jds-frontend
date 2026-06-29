@@ -12,6 +12,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   const navLinks = [
     { to: '/', label: 'Explorer' },
+    { to: '/practice', label: 'Practice' },
     { to: '/saved', label: 'Saved' },
     { to: '/settings', label: 'Settings' },
     ...(user?.role === 'admin' ? [{ to: '/admin', label: 'Admin' }] : []),

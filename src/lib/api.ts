@@ -54,6 +54,14 @@ export const jdsApi = {
   years: () => api.get('/jds/years').then((r) => r.data),
 };
 
+export const leetcodeApi = {
+  companies: () => api.get('/leetcode/companies').then(r => r.data),
+  problems: (params: Record<string, any>) => api.get('/leetcode/problems', { params }).then(r => r.data),
+  myStats: () => api.get('/leetcode/my-stats').then(r => r.data),
+  markAttempted: (slug: string) => api.post(`/leetcode/problems/${slug}/attempt`).then(r => r.data),
+  toggleSolve: (slug: string) => api.post(`/leetcode/problems/${slug}/toggle-solve`).then(r => r.data),
+};
+
 export const userApi = {
   me: () => api.get('/users/me').then((r) => r.data),
 
