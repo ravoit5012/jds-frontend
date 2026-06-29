@@ -7,7 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
 export default function Layout({ children }: { children: ReactNode }) {
   const { user, logout } = useAuth();
   const { selectedYear } = useYear();
-  const { theme, setTheme, actualTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
